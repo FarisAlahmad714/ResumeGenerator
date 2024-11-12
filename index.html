@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faris Alahmad - Software Developer Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .resume {
+            max-width: 900px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+        }
+        .left-column {
+            background: var(--secondary-color);
+            color: white;
+            padding: 40px;
+        }
+        .right-column {
+            padding: 40px;
+        }
+        .profile img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+        .profile img:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 0;
+        }
+        .job-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary-color);
+            margin-top: 10px;
+        }
+        .section-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+        .skill {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            margin: 8px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+        .skill:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        .experience-item, .education-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+        }
+        .experience-item::before, .education-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px; 
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+        }
+        .experience-item::after, .education-item::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 15px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        .experience-item:last-child::after, .education-item:last-child::after {
+            display: none;
+        }
+        .job-info, .degree-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+        }
+        .job-info i, .degree-info i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .contact-item i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .certifications-list {
+            list-style: none;
+            padding: 0;
+        }
+        .certifications-list li {
+            margin-bottom: 10px;
+        }
+        .certifications-list li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        .languages-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .languages-list li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .languages-list li i {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume">
+        <div class="left-column">
+            <div class="profile">
+                <img src="me.jpg" alt="Profile Picture">
+                <h1>Faris Alahmad</h1>
+                <p class="job-title">Software Developer</p>
+            </div>
+            <div class="contact-info">
+                <h2 class="section-title"><i class="fas fa-user-alt"></i> Contact</h2>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>Farisalahmad714@gmail.com</div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>(714)-386-2366</div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>Anaheim, CA 92801</div>
+                </div>
+            </div>
+            <div class="skills">
+                <h2 class="section-title"><i class="fas fa-tools"></i> Technical Skills</h2>
+                <span class="skill">Management</span>
+                <span class="skill">Client Relations</span>
+                <span class="skill">Customer Service</span>
+                <span class="skill">Software Development</span>
+                <span class="skill">Sales Expert</span>
+                <span class="skill">Social Media Marketeer</span>
+                <span class="skill">Prompt Engineering</span>
+                <span class="skill">Data Analysis</span>
+                <span class="skill">Financial Services</span>
+                <span class="skill">Credit Analysis</span>
+                <span class="skill">Database Management</span>
+            </div>
+            <div class="education">
+                <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Education</h2>
+                <div class="education-item">
+                    <h3>Cypress College</h3>
+                </div>
+                <div class="education-item">
+                    <h3>Coding Dojo</h3>
+                </div>
+            </div>
+            <div class="certifications">
+                <h2 class="section-title"><i class="fas fa-certificate"></i> Certifications</h2>
+                <ul class="certifications-list">
+                    <li><i class="fas fa-check-circle"></i> Full Stack Developer</li>
+                    <li><i class="fas fa-check-circle"></i> NMLS</li>
+                    <li><i class="fas fa-check-circle"></i> Sales License</li>
+                </ul>
+            </div>
+            <div class="languages">
+                <h2 class="section-title"><i class="fas fa-language"></i> Languages</h2>
+                <ul class="languages-list">
+                    <li>
+                        <i class="fas fa-comments"></i>
+                        <div>English</div>
+                    </li>
+                    <li>
+                        <i class="fas fa-comments"></i>
+                        <div>Arabic</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="experience">
+                <h2 class="section-title"><i class="fas fa-briefcase"></i> Experience</h2>
+                <div class="experience-item">
+                    <h3>Loan Officer</h3>
+                    <div class="job-info">
+                        <div class="company"><i class="fas fa-building"></i> Ennkar</div>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 04/2020 - 06/2023</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> Orange</div>
+                    </div>
+                    <ul>
+                        <li>Operated in a high-pressure sales environment specializing in reverse mortgages for seniors aged 62+</li>
+                        <li>Educated clients on loan refinancing options, maintaining a patient and informative approach despite remote work challenges due to COVID-19.</li>
+                        <li>Conducted primarily phone-based business during COVID, demonstrating patience to achieve success.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Client Advisor</h3>
+                    <div class="job-info">
+                        <div class="company"><i class="fas fa-building"></i> BMW of Buena Park</div>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 12/2018 - 12/2019</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> Buena Park</div>  
+                    </div>
+                    <ul>
+                        <li>Provided expert guidance to customers in selecting vehicles, leveraging knowledge of the automotive market from previous experience to enhance customer satisfaction.</li>
+                        <li>Successfully achieved a high rate of sales conversions through personalized service and effective communication, resulting in a monthly sales increase averaging 17-20% over the year.</li>
+                        <li>Collaborated with the sales team to exceed monthly sales goals, contributing to overall dealership success.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Sales Consultant</h3>
+                    <div class="job-info">
+                        <div class="company"><i class="fas fa-building"></i> Autonation Toyota Buena Park</div>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 02/2018 - 01/2019</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> Buena Park</div>
+                    </div>
+                    <ul>
+                        <li>Assisted customers in finding the right new or used vehicles, resulting in an average 10-15% increase month-to-month sales in the duration of a year.</li>
+                        <li>Established enduring relationships with clients, effectively securing their loyalty after successful conversions & retained this valuable client base through seamless transitions between different dealerships.</li>
+                        <li>Worked effectively across both floor sales and the eCommerce department, consistently meeting sales targets.</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Manager & Server</h3>
+                    <div class="job-info">
+                        <div class="company"><i class="fas fa-building"></i> AlMokhtar Hookah Lounge</div>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 07/2014 - 05/2018</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> Anaheim</div>
+                    </div>
+                    <ul>
+                        <li>Maintained a safe working environment for the workforce of 2-3 employees, managed the operations from finances to event planning, and social media marketing</li>
+                        <li>Ensured customer satisfaction at a maximum, which continually led to plenty of returning customers and a well-performing business overall.</li>
+                        <li>Successfully grew the family business through effective management strategies and customer engagement.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
