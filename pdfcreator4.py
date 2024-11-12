@@ -13,74 +13,36 @@ from reportlab.pdfbase.ttfonts import TTFont
 import os
 import requests
 import math
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+
 def create_gradient_background(c, x, width, height):
-    """Create a sophisticated and vibrant gradient background"""
+    """Create a subtle two-tone gradient background."""
     c.saveState()
     
-    # Define a richer color palette for the gradient
-    colors = [
-        (0.20, 0.55, 0.95),  # Bright Sky Blue
-        (0.15, 0.50, 0.90),  # Ocean Blue
-        (0.12, 0.45, 0.88),  # Royal Blue
-        (0.10, 0.40, 0.85),  # Sapphire
-        (0.08, 0.35, 0.82),  # Deep Blue
-        (0.06, 0.32, 0.80),  # Navy Blue
-        (0.04, 0.30, 0.78),  # Midnight Blue
-        (0.03, 0.28, 0.76),  # Dark Ocean
-        (0.02, 0.25, 0.74),  # Deep Sea
-        (0.00, 0.22, 0.72)   # Abyss Blue
-    ]
+    # Define the start and end colors for the gradient
+    start_color = colors.HexColor('#2C3E50')  # Deep navy blue
+    end_color = colors.HexColor('#4CA1AF')    # Lighter blue
     
-    # Increase steps significantly for ultra-smooth transition
-    steps = 300  # Doubled for smoother gradient
-    
-    # Calculate height of each gradient strip
-    strip_height = height / steps
+    # Number of gradient steps
+    steps = 100
+    step_height = height / steps
     
     for i in range(steps):
-        # Calculate color for this strip with improved interpolation
+        # Calculate interpolation factor
         t = i / float(steps - 1)
         
-        # Find the two colors to interpolate between
-        color_index = int(t * (len(colors) - 1))
-        color_index = min(color_index, len(colors) - 2)
+        # Interpolate between start and end colors
+        r = start_color.red + t * (end_color.red - start_color.red)
+        g = start_color.green + t * (end_color.green - start_color.green)
+        b = start_color.blue + t * (end_color.blue - start_color.blue)
         
-        # Get the two colors
-        c1 = colors[color_index]
-        c2 = colors[color_index + 1]
+        # Set the fill color
+        c.setFillColorRGB(r, g, b)
         
-        # Calculate interpolation factor with smoothing
-        local_t = (t * (len(colors) - 1)) - color_index
-        # Add smoothing function for more natural transition
-        smooth_t = local_t * local_t * (3 - 2 * local_t)
-        
-        # Interpolate between the two colors with smoothing
-        r = c1[0] + (c2[0] - c1[0]) * smooth_t
-        g = c1[1] + (c2[1] - c1[1]) * smooth_t
-        b = c1[2] + (c2[2] - c1[2]) * smooth_t
-        
-        # Add subtle variation for more visual interest
-        variation = math.sin(i * math.pi / 30) * 0.02
-        r = max(0, min(1, r + variation))
-        g = max(0, min(1, g + variation))
-        b = max(0, min(1, b + variation))
-        
-        # Draw the gradient strip with overlap
-        y_position = height - (i + 1)*strip_height
-        c.setFillColorRGB(r, g, b, 0.98)  # Slight transparency
-        
-        # Draw main gradient strip
-        c.rect(0, y_position, 3*inch, strip_height + 1, fill=1, stroke=0)
-        
-        # Add subtle highlight effect on the edge
-        if i % 5 == 0:  # Every 5th strip
-            c.setFillColorRGB(r+0.05, g+0.05, b+0.05, 0.1)
-            c.rect(2.9*inch, y_position, 0.1*inch, strip_height + 1, fill=1, stroke=0)
-    
-    # Add a subtle overlay pattern for texture
-    for i in range(0, int(height), 10):
-        c.setFillColorRGB(1, 1, 1, 0.03)  # Very subtle white
-        c.rect(0, i, 3*inch, 2, fill=1, stroke=0)
+        # Draw the rectangle strip
+        y = height - (i + 1) * step_height
+        c.rect(x, y, width, step_height, fill=1, stroke=0)
     
     c.restoreState()
 
@@ -230,7 +192,7 @@ def create_cv(filename, data, image_path):
     for job in data['experience']:
         # Company name with link
         c.setFillColor(colors.HexColor('#1976D2'))
-        c.setFont('Helvetica-Bold', 14)
+        c.setFont('Helvetica-Bold', 11)
         company_text = job['company']
         company_width = stringWidth(company_text, 'Helvetica-Bold', 14)
         c.drawString(3.2*inch, y, company_text)
@@ -247,27 +209,31 @@ def create_cv(filename, data, image_path):
             c.line(3.2*inch, y - 1,
                    3.2*inch + company_width, y - 1)
         
-        # Job details
-        y -= 0.3*inch
-        c.setFillColor(colors.black)
-        c.setFont('Helvetica', 10)
-        c.drawString(3.2*inch, y, f"{job['title']} | {job['location']} | {job['dates']}")
-        
-        # Description bullets
-        y -= 0.3*inch
+       # Job details with a slightly smaller font size
+        y -= 0.3 * inch
+        c.setFillColor(colors.HexColor('#2C3E50'))  # Dark blue color
+        c.setFont('Helvetica-Bold', 7)  # Adjusting job title font size only
+        c.setFont('Helvetica-Bold', 12)
+        c.drawString(3.2*inch, y, job['title'])
+        # Draw job title, location, and dates in one line
+        c.drawString(3.2 * inch, y, f"{job['title']} | {job['location']} | {job['dates']}")
+
+        # Description bullets with reduced font size only
+        y -= 0.3 * inch  # Reduced spacing above bullet points
         for bullet in job['description']:
-            text = Paragraph(f"• {bullet}", 
-                            ParagraphStyle(
-                                'bullet',
-                                fontName='Helvetica',
-                                fontSize=10,
-                                leftIndent=20,
-                                firstLineIndent=-20
-                            ))
-            text_width, text_height = text.wrap(4.5*inch, height)
-            text.drawOn(c, 3.4*inch, y - text_height)
-            y -= text_height + 0.1*inch
-        y -= 0.2*inch
+            text = Paragraph(
+                f"• {bullet}",
+                ParagraphStyle(
+                    'bullet',
+                    fontName='Helvetica',
+                    fontSize=8,  # Set smaller font size for bullet points
+                    leftIndent=20,
+                )
+            )
+            text_width, text_height = text.wrap(4.5 * inch, height)
+            text.drawOn(c, 3.4 * inch, y - text_height)
+            y -= text_height + 0.1 * inch  # Slight spacing reduction between bullets
+        y -= 0.2 * inch  # Standard spacing after job description
 
     c.save()
 
@@ -279,8 +245,8 @@ cv_data = {
     'phone': '(714)-386-2366',
     'location': 'Anaheim, CA 92801',
     'social_links': {
-        'linkedin': 'https://www.linkedin.com/in/your-linkedin',  # Add your LinkedIn URL
-        'github': 'https://github.com/your-github'  # Add your GitHub URL
+        'linkedin': 'https://www.linkedin.com/in/farisahmad1/',  # Add your LinkedIn URL
+        'github': 'https://github.com/FarisAlahmad714'  # Add your GitHub URL
     },
     'technical_skills': [
         'Management', 'Client Relations', 'Customer Service', 
@@ -309,7 +275,7 @@ cv_data = {
             'company_url': 'https://www.bmwbuenapark.com',
             'title': 'Client Advisor',
             'location': 'Buena Park',
-            'dates': '12/2018 - 12/2019',
+            'dates': '11/2018 - 12/2019',
             'description': [
                 'Provided expert guidance to customers in selecting vehicles, leveraging knowledge of the automotive market from previous experience to enhance customer satisfaction.',
                 'Successfully achieved a high rate of sales conversions through personalized service and effective communication, resulting in a monthly sales increase averaging 17-20% over the year.',
@@ -321,7 +287,7 @@ cv_data = {
             'company_url': 'https://www.autonation.com',
             'title': 'Sales Consultant',
             'location': 'Buena Park',
-            'dates': '02/2018 - 01/2019',
+            'dates': '11/2017 - 10/2018',
             'description': [
                 'Assisted customers in finding the right new or used vehicles, resulting in an average 10-15% increase month-to-month sales in the duration of a year.',
                 'Established enduring relationships with clients, effectively securing their loyalty after successful conversions & retained this valuable client base through seamless transitions between different dealerships.',
@@ -344,4 +310,4 @@ cv_data = {
 
 # Create the CV
 image_path = 'me1.jpg'  # Replace with your actual image path
-create_cv('high_quality_cv1.pdf', cv_data, image_path)
+create_cv('high_quality_cv2.pdf', cv_data, image_path)
